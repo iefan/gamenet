@@ -1,4 +1,5 @@
 # Django settings for gamenet project.
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -110,6 +111,7 @@ ROOT_URLCONF = 'gamenet.urls'
 WSGI_APPLICATION = 'gamenet.wsgi.application'
 
 TEMPLATE_DIRS = (
+    os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -126,6 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+    'orderahead',
 )
 
 # A sample logging configuration. The only tangible logging
