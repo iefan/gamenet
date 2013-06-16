@@ -1,7 +1,7 @@
 #coding:utf8
 # from django.forms import ModelForm
 from django import forms
-from django.forms.extras import SelectDateWidget
+# from django.forms.extras import SelectDateWidget
 from models import orderlist
 from django.contrib.admin import widgets
 
@@ -20,13 +20,13 @@ class OrderForm(forms.ModelForm):
         self.instance.endtime=self.cleaned_data.get('endtime')
 
 
-class OrderForm2(forms.Form):
-    CHOICES = (('1', '男',), ('2', '女',))
-    name        = forms.CharField(widget=forms.TextInput)
-    sex         = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
-    age         = forms.CharField(widget = forms.TextInput)
-    address     = forms.CharField(widget = forms.TextInput)
-    phone       = forms.CharField(widget = forms.TextInput)
-    starttime   = forms.DateTimeField(widget=forms.TextInput(attrs={'placeholder':'--Please Input...', 'class':"vDateField"}))
-    endtime     = forms.DateTimeField()
-    desc        = forms.CharField(widget = forms.Textarea)
+# class OrderForm2(forms.Form):
+#     CHOICES = (('1', '男',), ('2', '女',))
+#     name        = forms.CharField(widget=forms.TextInput)
+#     sex         = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
+#     age         = forms.CharField(widget = forms.TextInput)
+#     address     = forms.CharField(widget = forms.TextInput)
+#     phone       = forms.CharField(widget = forms.TextInput)
+#     starttime   = forms.DateTimeField(widget=forms.TextInput(attrs={'placeholder':'--Please Input...', 'class':"vDateField"}))
+#     endtime     = forms.DateTimeField()
+#     desc        = forms.CharField(widget = forms.Textarea)

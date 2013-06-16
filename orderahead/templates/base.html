@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="zh">
+  <head>
+    <!-- <link rel="stylesheet" href="style.css" /> -->
+    <title>{% block title %}My amazing site{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="/static/pure-min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
+    <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+    <script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+
+    <script type="text/javascript" src="/admin/jsi18n/"></script>
+    <script type="text/javascript" src="/static/admin/js/core.js"></script>
+    <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
+    <script type="text/javascript" src="/static/admin/js/jquery.js"></script>
+    <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
+    <script type="text/javascript" src="/static/admin/js/actions.js"></script>
+    <script type="text/javascript" src="/static/admin/js/calendar.js"></script>
+    <script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
+  </head>
+
+  <body>
+    <div id="sidebar">
+      {% block sidebar %}
+      <ul>
+        <li><a href="/">首页</a></li>
+        <li><a href="/orderahead/">预订</a></li>
+      </ul>
+      {% endblock %}
+    </div>
+
+    <div id="content">
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>
