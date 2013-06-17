@@ -3,17 +3,10 @@
 {% block title %}OrderAhead{% endblock %}
 
 {% block content %}
-    <h1>order</h1>
-    <div id="content-main">
-      <form action="." method="POST">
-        <fieldset class="module aligned ">
-          <div class="form-row field-name">
-            <table class="pure-table">
-              {{ form.as_table }}
-            </table>
-            <p><input type="submit" value="Submit"></p>
-      </form>
-      </div>
-      </fieldset>
+    <h1>预订</h1>
+    <table class="pure-table  pure-table-horizontal gameordertable">
+      {{ form.as_table }}
+    </table>
+    <p><input type="submit" value="提交"></p>
     </div>
 {% endblock %}

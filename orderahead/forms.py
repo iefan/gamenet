@@ -7,14 +7,15 @@ from django.contrib.admin import widgets
 
 class OrderForm(forms.ModelForm):
     # starttime   = forms.DateField(widget=widgets.AdminDateWidget)
-    starttime   = forms.DateTimeField(widget=widgets.AdminSplitDateTime)
-    endtime     = forms.DateTimeField(widget=widgets.AdminSplitDateTime)
+    starttime   = forms.DateTimeField(widget=widgets.AdminSplitDateTime, label="预约时间")
+    # endtime     = forms.DateTimeField(widget=widgets.AdminSplitDateTime)
     # endtime     = forms.SplitDateTimeField(input_time_formats=['%I:%M %p'])
     # starttime.widgets[0].attrs = {'class': 'vDateField'}
     # starttime.widgets[1].attrs = {'class': 'vTimeField'}
     class Meta:
         model=orderlist
-        exclude=('starttime','endtime')
+        exclude=('starttime',)
+        # exclude=('starttime','endtime')
     def clean(self):
         self.instance.starttime=self.cleaned_data.get('starttime')
         self.instance.endtime=self.cleaned_data.get('endtime')
