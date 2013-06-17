@@ -8,7 +8,10 @@ class orderlist(models.Model):
     sex         = models.CharField(max_length=2, verbose_name="性别")
     age         = models.IntegerField(verbose_name="年龄")
     address     = models.CharField(max_length=100, null=True, verbose_name="地址")
-    phone       = models.IntegerField(verbose_name="电话")
+    phone       = models.CharField(max_length=12, verbose_name="电话")
     personnums  = models.IntegerField(verbose_name="人数")
     starttime   = models.DateTimeField(verbose_name="预订")
     desc        = models.TextField(null=True, verbose_name="说明")
+
+    def __unicode__(self):
+        return "%s %s %s %s %s" % (self.name, self.sex, self.age, self.phone, self.personnums)
