@@ -1,4 +1,4 @@
 from django.contrib import admin
-from models import orderlist
+from models import OrderlistModel
 
-admin.site.register(orderlist)
+admin.site.register(OrderlistModel)

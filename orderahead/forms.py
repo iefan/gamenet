@@ -1,33 +1,28 @@
 #coding:utf8
-# from django.forms import ModelForm
 from django import forms
-# from django.forms.extras import SelectDateWidget
-from models import orderlist
+from models import OrderlistModel
 from django.contrib.admin import widgets
 
 class OrderForm(forms.ModelForm):
-    # starttime   = forms.DateField(widget=widgets.AdminDateWidget)
-    starttime   = forms.DateTimeField(widget=widgets.AdminSplitDateTime, label="预约时间")
-    # endtime     = forms.DateTimeField(widget=widgets.AdminSplitDateTime)
-    # endtime     = forms.SplitDateTimeField(input_time_formats=['%I:%M %p'])
-    # starttime.widgets[0].attrs = {'class': 'vDateField'}
-    # starttime.widgets[1].attrs = {'class': 'vTimeField'}
+    sexchoices      = ( ('男','男'),('女','女'),)
+    agechoices      = tuple([(`i`,`j`) for i,j in zip(range(16,30), range(16,30))])
+    ppnumschoices   = tuple([(`i`,`j`) for i,j in zip(range(1,6), range(1,6))])
+
+    starttime   = forms.DateTimeField(widget=widgets.AdminSplitDateTime, label="时间")
+    sex         = forms.ChoiceField(choices=sexchoices, label='性别')#, widget=forms.RadioSelect
+    age         = forms.ChoiceField(choices = agechoices, label='年龄')
+    personnums  = forms.ChoiceField(choices = ppnumschoices, label='人数')
+
     class Meta:
-        model=orderlist
-        exclude=('starttime',)
+        model=OrderlistModel
         # exclude=('starttime','endtime')
+
     def clean(self):
-        self.instance.starttime=self.cleaned_data.get('starttime')
-        self.instance.endtime=self.cleaned_data.get('endtime')
+        return self.cleaned_data
+    #     self.instance.starttime=self.cleaned_data.get('starttime')
 
-
-# class OrderForm2(forms.Form):
-#     CHOICES = (('1', '男',), ('2', '女',))
-#     name        = forms.CharField(widget=forms.TextInput)
-#     sex         = forms.ChoiceField(widget=forms.RadioSelect, choices=CHOICES)
-#     age         = forms.CharField(widget = forms.TextInput)
-#     address     = forms.CharField(widget = forms.TextInput)
-#     phone       = forms.CharField(widget = forms.TextInput)
-#     starttime   = forms.DateTimeField(widget=forms.TextInput(attrs={'placeholder':'--Please Input...', 'class':"vDateField"}))
-#     endtime     = forms.DateTimeField()
-#     desc        = forms.CharField(widget = forms.Textarea)
+    def clean_phone(self):
+        phone = self.cleaned_data['phone']
+        if not phone.isdigit() or len(phone)<11 or len(phone) > 12:
+            raise forms.ValidationError("请输入11或12位电话号码")
+        return phone

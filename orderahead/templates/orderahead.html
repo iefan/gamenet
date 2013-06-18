@@ -3,10 +3,29 @@
 {% block title %}预订{% endblock %}
 
 {% block ordertable %}
-    <h1>预订</h1>
-    <table class="pure-table  pure-table-horizontal gameordertable">
-      {{ form.as_table }}
+    <form class="pure-form" action="" method="post">
+      <h1>预订</h1>
+      <fieldset>
+        <table class="pure-table  pure-table-horizontal gameordertable">
+          {{ form.as_table }}
+        </table>
+        <p ><button class="pure-button pure-button-primary" type="submit">预订</button></p>
+      </fieldset>
+    </form>
+{% endblock %}
+
+{% block orderdate %}
+    <h1>可预订时间</h1>
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <th>日期</th>
+          <th>星期</th>
+          <th>时间</th>
+        </tr>
+      </thead>
+      {% for item1,item2,item3 in orderdate %}
+        <tr><td>{{ item1 }}</td><td>{{ item2 }}</td><td>{{ item3 }}</td></tr>
+      {% endfor %}
     </table>
-    <p><input type="submit" value="提交"></p>
-    </div>
 {% endblock %}
