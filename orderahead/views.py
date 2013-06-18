@@ -17,7 +17,6 @@ def orderahead(request):
         orderdate.append((tmpday.isoformat(), tmpweekday, '0800-1200,0800-1200'))
     if request.method == 'POST':
         form = OrderForm(request.POST)
-        print form
         if form.is_valid():
             form.clean()
             form.save()
@@ -27,8 +26,25 @@ def orderahead(request):
     return render_to_response('orderahead.html', {'form': form, 'orderdate':orderdate})
 
 
-    # form = OrderForm()
-    # return render_to_response('orderahead.html', {'form':form})
+# form = OrderForm()
+# return render_to_response('orderahead.html', {'form':form})
 
 def gamedisplay(request):
     return render_to_response('gamedisplay.html')
+
+def selectorder(request):
+    # strinfo = u"姓名：%s <br/>"
+    # strinfo += u"性别：%s <br/>"
+    # strinfo += u"年龄：%s <br/>"
+    curpp = []
+    if request.method == 'POST':
+        name = request.POST['name']
+        phone = request.POST['phone']
+        curpp = OrderlistModel.objects.get(name=name, phone=phone)
+        curpp = [curpp.name, curpp.sex, curpp.age, curpp.phone]
+        # strinfo = strinfo % (curpp.name, curpp.sex, curpp.age)
+        # print curpp
+        # print strinfo
+
+    # orderpersondata = OrderlistModel.objects.all()
+    return render_to_response('selectorder.html', {'curpp': curpp})

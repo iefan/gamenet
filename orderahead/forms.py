@@ -8,14 +8,15 @@ class OrderForm(forms.ModelForm):
     agechoices      = tuple([(`i`,`j`) for i,j in zip(range(16,30), range(16,30))])
     ppnumschoices   = tuple([(`i`,`j`) for i,j in zip(range(1,6), range(1,6))])
 
-    starttime   = forms.DateTimeField(widget=widgets.AdminSplitDateTime, label="时间")
+    startdate   = forms.DateField(widget=widgets.AdminDateWidget, label="日期")
+    starttime   = forms.TimeField(widget=widgets.AdminTimeWidget, label="时间")
     sex         = forms.ChoiceField(choices=sexchoices, label='性别')#, widget=forms.RadioSelect
     age         = forms.ChoiceField(choices = agechoices, label='年龄')
     personnums  = forms.ChoiceField(choices = ppnumschoices, label='人数')
 
     class Meta:
         model=OrderlistModel
-        # exclude=('starttime','endtime')
+        exclude=('iscancel','isagree',)
 
     def clean(self):
         return self.cleaned_data

@@ -12,6 +12,7 @@ def i18n_javascript(request):
 urlpatterns = patterns('',
     (r'^admin/jsi18n', i18n_javascript),
     url(r'^orderahead/$', 'orderahead.views.orderahead'),
+    url(r'^select/$', 'orderahead.views.selectorder'),
     url(r'^$', 'orderahead.views.gamedisplay'),
     # Examples:
     # url(r'^$', 'gamenet.views.home', name='home'),
