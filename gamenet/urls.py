@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^orderahead/$', 'orderahead.views.orderahead'),
     url(r'^select/$', 'orderahead.views.selectorder'),
     url(r'^about/$', 'orderahead.views.about'),
+    url(r'^contact/$', 'orderahead.views.contact'),
     # Examples:
     # url(r'^$', 'gamenet.views.home', name='home'),
     # url(r'^gamenet/', include('gamenet.foo.urls')),

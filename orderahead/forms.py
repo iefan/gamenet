@@ -17,6 +17,7 @@ class OrderForm(forms.ModelForm):
         timechoices.append((tmptime1, tmptime1))
         timechoices.append((tmptime2, tmptime2))
     timechoices     = tuple(timechoices)
+    gameclasschoices= (("场景1", "场景1"), ("场景2", "场景2"))
 
     startdate   = forms.ChoiceField(choices = datechoices, label='日期')
     starttime   = forms.ChoiceField(choices = timechoices, label='时间')
@@ -25,6 +26,7 @@ class OrderForm(forms.ModelForm):
     sex         = forms.ChoiceField(choices=sexchoices, label='性别')#, widget=forms.RadioSelect
     age         = forms.ChoiceField(choices = agechoices, label='年龄')
     personnums  = forms.ChoiceField(choices = ppnumschoices, label='人数')
+    gameclass  = forms.ChoiceField(choices = gameclasschoices, label='场景')
 
     class Meta:
         model=OrderlistModel

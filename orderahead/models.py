@@ -7,7 +7,7 @@ class OrderlistModel(models.Model):
     name        = models.CharField(max_length=30, verbose_name="姓名")
     sex         = models.CharField(max_length=2, verbose_name="性别")
     age         = models.IntegerField(verbose_name="年龄")
-    address     = models.CharField(max_length=100, null=True,blank=True, verbose_name="地址")
+    gameclass   = models.CharField(max_length=100, verbose_name="场景")
     phone       = models.CharField(max_length=12, verbose_name="电话")
     personnums  = models.IntegerField(verbose_name="人数")
     startdate   = models.DateField(verbose_name="日期")
