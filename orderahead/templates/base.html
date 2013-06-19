@@ -11,25 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/static/mycss/normalize.css" />
     <link rel="stylesheet" type="text/css" href="/static/mycss/pure-min.css" />
 
-    {% block admincssjs %}
-
-    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
-    <link rel="stylesheet" type="text/css" href="/static/admin/css/forms.css" />
-
-    <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
-
-    <script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
-
-    <script type="text/javascript" src="/admin/jsi18n/"></script>
-    <script type="text/javascript" src="/static/admin/js/core.js"></script>
-    <script type="text/javascript" src="/static/admin/js/admin/RelatedObjectLookups.js"></script>
-    <script type="text/javascript" src="/static/admin/js/jquery.js"></script>
-    <script type="text/javascript" src="/static/admin/js/jquery.init.js"></script>
-    <script type="text/javascript" src="/static/admin/js/actions.js"></script>
-    <script type="text/javascript" src="/static/admin/js/calendar.js"></script>
-    <script type="text/javascript" src="/static/admin/js/admin/DateTimeShortcuts.js"></script>
-
-    {% endblock %}
+    {% block admincssjs %}{% endblock %}
 
     <script src="/static/myjs/ajf8ggy.js"></script>
     <script>
@@ -56,7 +38,7 @@
           <li class="pure-menu-selected gamenav"><a href="/">首页</a></li>
           <li class="gamenav"><a href="/orderahead/">预订</a></li>
           <li class="gamenav"><a href="/select/">查询</a></li>
-          <li class="gamenav"><a href="#">关于</a></li>
+          <li class="gamenav"><a href="/about/">关于</a></li>
         </ul>
       </div>
     </div>

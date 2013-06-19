@@ -1,24 +1,40 @@
 {% extends "selectbase.html" %}
+{% block title %}查询{% endblock %}
+{% block admincssjs %}{% endblock %}
+
 {% block orderselect %}
 <form method="POST" action="." class="pure-form">
   <fieldset>
-    <legend>查询</legend>
+    <h2>查询</h2>
 
     <label>姓名： </label>
     <input name="name" type="text" placeholder="姓名">
     <label>电话号码： </label>
     <input name="phone" type="text" placeholder="电话号码">
-    <button type="submit" class="pure-button notice">查询</button>
+    <button type="submit" class="pure-button pure-button-success">查询</button>
   </fieldset>
 </form>
 {% endblock %}
 
 {% block ordertable %}
-<legend>个人信息</legend>
-<table class="pure-table  pure-table-horizontal gameordertable">
-    {% for item1 in curpp %}
-  <tr><td>{{ item1 }}</td></tr>
-  {% endfor %}
+<h2 align="center">个人信息</h1>
+<table align="center" class="pure-table">
+  <thead>
+    <tr>
+      {% for item in curppname %}
+      <th>{{ item }}</th>
+      {% endfor %}
+    </tr>
+  </thead>
+  <tr>
+    {% for item in curpp %}
+    {% if not item %}
+    <td>&nbsp;</td>
+    {% else %}
+    <td>{{ item }}</td>
+    {% endif %}
+    {% endfor %}
+  </tr>
 </table>
-<p ><button class="pure-button pure-button-primary" href="#">取消预订</button></p>
+<p align="center"><button class="pure-button pure-button-primary" href="#">取消预订</button></p>
 {% endblock %}
