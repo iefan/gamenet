@@ -21,16 +21,14 @@ class OrderForm(forms.ModelForm):
 
     startdate   = forms.ChoiceField(choices = datechoices, label='日期')
     starttime   = forms.ChoiceField(choices = timechoices, label='时间')
-    # startdate   = forms.DateField(widget=widgets.AdminDateWidget, label="日期")
-    # starttime   = forms.TimeField(widget=widgets.AdminTimeWidget, label="时间")
-    sex         = forms.ChoiceField(choices=sexchoices, label='性别')#, widget=forms.RadioSelect
+    sex         = forms.ChoiceField(choices=sexchoices, label='性别')   #widget=forms.RadioSelect
     age         = forms.ChoiceField(choices = agechoices, label='年龄')
     personnums  = forms.ChoiceField(choices = ppnumschoices, label='人数')
     gameclass  = forms.ChoiceField(choices = gameclasschoices, label='场景')
 
     class Meta:
         model=OrderlistModel
-        exclude=('iscancel','isagree',)
+        exclude=('isagree',)
 
     def clean(self):
         return self.cleaned_data

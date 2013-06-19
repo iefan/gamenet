@@ -13,8 +13,8 @@ class OrderlistModel(models.Model):
     startdate   = models.DateField(verbose_name="日期")
     starttime   = models.TimeField(verbose_name="时间")
     descinfo    = models.TextField(null=True, blank=True, verbose_name="说明")
-    iscancel    = models.BooleanField(blank=True,verbose_name="是否取消")
-    isagree     = models.BooleanField(blank=True,verbose_name="申核")
+    # iscancel    = models.BooleanField(blank=True,verbose_name="是否取消")
+    isagree     = models.BooleanField(verbose_name="申核同意")
 
     def __unicode__(self):
         return "%s %s %s %s %s" % (self.name, self.sex, self.age, self.phone, self.personnums)
