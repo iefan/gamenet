@@ -4,7 +4,7 @@ body {
 }
 
 .l-box {
-    padding: 1em;
+    padding: 0.5em;
 }
 
 .header {
@@ -41,6 +41,8 @@ body .primary-button {
         color: #999;
         font-weight: 300;
         line-height: 1.4em;
+        margin:0 0 0 0;
+        padding:0;
     }
     .splash .primary-button {
         font-size: 150%;

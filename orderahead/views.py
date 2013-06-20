@@ -8,11 +8,11 @@ import datetime
 def orderahead(request):
     orderdate = []
     today = datetime.date.today()
-    lstchinesenum = ["一", "二", "三", "四", "五", "六", "七"]
+    lstchinesenum = ["一", "二", "三", "四", "五", "六", "日"]
     for i in range(0, 7):
         tmpday = (today+datetime.timedelta(i))
         tmpweekday = "周" + lstchinesenum[tmpday.weekday()]
-        orderdate.append((tmpday.isoformat(), tmpweekday, '0800-1200,0800-1200'))
+
     if request.method == 'POST':
         form = OrderForm(request.POST)
         if form.is_valid():
@@ -23,7 +23,10 @@ def orderahead(request):
             return selectorder(request, name, phone)
     else:
         form = OrderForm()
-    return render_to_response('orderahead.html', {'form': form, 'orderdate':orderdate})
+
+    jscal_min = int(today.isoformat().replace('-', ''))
+    jscal_max = int((today + datetime.timedelta(30)).isoformat().replace('-', ''))
+    return render_to_response('orderahead.html', {'form': form,  "jscal_min":jscal_min, "jscal_max":jscal_max})
 
 
 def gamedisplay(request):
@@ -31,20 +34,22 @@ def gamedisplay(request):
 
 
 def selectorder(request, name="", phone=""):
-    curppname = [u"姓名", u"性别", u"年龄", u"场景", u"电话", u"人数", u"预订时间", u"是否通过申请"]
-    curpp     = ["","","","","","","",""]
+    curppname = [u"姓名", u"场景", u"电话", u"人数", u"预订时间", u"是否通过申请"]
+    curpp     = ["","","","","",""]
     if request.method == 'POST':
         name = request.POST['name']
         phone = request.POST['phone']
-        try:
-            curpp = OrderlistModel.objects.get(name=name, phone=phone)
-            tmpdatetime = curpp.startdate.isoformat() + "--" + curpp.starttime.isoformat()
-            if curpp.isagree:
+
+        cur_re = OrderlistModel.objects.filter(name=name, phone=phone)
+        if len(cur_re) != 0:
+            cur_re = cur_re[0]
+            tmpdatetime = cur_re.startdate.isoformat() + "--" + cur_re.starttime.isoformat()
+            if cur_re.isagree:
                 isagree = u"通过"
             else:
                 isagree = u"未通过"
-            curpp = [curpp.name, curpp.sex, curpp.age, curpp.gameclass, curpp.phone, curpp.personnums, tmpdatetime, isagree]
-        except OrderlistModel.DoesNotExist:
+            curpp = [cur_re.name,  cur_re.gameclass, cur_re.phone, cur_re.personnums, tmpdatetime, isagree]
+        else:
             curpp[0] = "没有登记"
     return render_to_response('selectorder.html', {'curpp': curpp, 'curppname':curppname})
 
