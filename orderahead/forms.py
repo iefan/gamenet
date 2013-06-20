@@ -5,8 +5,6 @@ from django.contrib.admin import widgets
 import datetime
 
 class OrderForm(forms.ModelForm):
-    # sexchoices      = ( ('男','男'),('女','女'),)
-    # agechoices      = tuple([(`i`,`j`) for i,j in zip(range(16,30), range(16,30))])
     ppnumschoices   = tuple([(`i`,`j`) for i,j in zip(range(4,8), range(4,8))])
     today = datetime.date.today()
     datechoices     = tuple([((today+datetime.timedelta(i)).isoformat(), (today+datetime.timedelta(i)).isoformat()) for i in range(1,10)])
@@ -19,11 +17,9 @@ class OrderForm(forms.ModelForm):
     timechoices     = tuple(timechoices)
     gameclasschoices= (("场景1", "场景1"), ("场景2", "场景2"))
 
-    # startdate   = forms.ChoiceField(choices = datechoices, label='日期')
-    startdate   = forms.CharField(label='日期', widget= forms.TextInput(attrs={'id': "calendar-inputField"}))
+
+    startdate   = forms.CharField(error_messages={'required':u'日期不能为空'}, label='日期', widget= forms.TextInput())
     starttime   = forms.ChoiceField(choices = timechoices, label='时间')
-    # sex         = forms.ChoiceField(choices=sexchoices, label='性别')   #widget=forms.RadioSelect
-    # age         = forms.ChoiceField(choices = agechoices, label='年龄')
     personnums  = forms.ChoiceField(choices = ppnumschoices, label='人数')
     gameclass  = forms.ChoiceField(choices = gameclasschoices, label='场景')
 
@@ -36,6 +32,9 @@ class OrderForm(forms.ModelForm):
     #     self.instance.starttime=self.cleaned_data.get('starttime')
 
     def clean_starttime(self):
+        if 'startdate' not in self.cleaned_data.keys():
+            raise forms.ValidationError("请先输入日期！")
+
         startdate   = self.cleaned_data['startdate']
         starttime   = self.cleaned_data['starttime']
         curpp = OrderlistModel.objects.filter(startdate=startdate, starttime=starttime) #, isagree=False

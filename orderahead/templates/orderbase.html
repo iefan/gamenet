@@ -14,8 +14,8 @@
       {% block ordertable %}{% endblock %}
       <script>
         Calendar.setup({
-        trigger    : "calendar-inputField",
-        inputField : "calendar-inputField",
+        trigger    : "id_startdate",
+        inputField : "id_startdate",
         min: {{ jscal_min }},
         max: {{ jscal_max }}
         });
