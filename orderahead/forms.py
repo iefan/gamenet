@@ -25,38 +25,47 @@ class OrderForm(forms.ModelForm):
 
     class Meta:
         model=OrderlistModel
+        fields = ('name', 'phone', 'personnums', 'startdate', 'starttime', 'gameclass')
         exclude=('isagree',)
 
     def clean(self):
         return self.cleaned_data
-    #     self.instance.starttime=self.cleaned_data.get('starttime')
 
-    def clean_starttime(self):
-        if 'startdate' not in self.cleaned_data.keys():
-            raise forms.ValidationError("请先输入日期！")
-
-        startdate   = self.cleaned_data['startdate']
-        starttime   = self.cleaned_data['starttime']
-        curpp = OrderlistModel.objects.filter(startdate=startdate, starttime=starttime) #, isagree=False
+    def clean_name(self):
+        name   = self.cleaned_data['name']
+        curpp = OrderlistModel.objects.filter(name=name, isagree=False)
         if len(curpp) != 0:
-            raise forms.ValidationError("当前时间段已经有人预订，请另选时间！")
+            raise forms.ValidationError("该姓名在当前系统您已经预订！")
         else:
             pass
-
-        return starttime
+        return name
 
     def clean_phone(self):
-        name   = self.cleaned_data['name']
         phone  = self.cleaned_data['phone']
 
         if not phone.isdigit() or len(phone)<11 or len(phone) > 12:
             raise forms.ValidationError("请输入11或12位电话号码")
 
-
-        curpp = OrderlistModel.objects.filter(name=name, phone=phone, isagree=False)
+        curpp = OrderlistModel.objects.filter(phone=phone, isagree=False)
         if len(curpp) != 0:
-            raise forms.ValidationError("该电话及姓名在当前系统您已经预订！")
+            raise forms.ValidationError("该电话在当前系统您已经预订！")
         else:
             pass
 
         return phone
+
+    def clean_gameclass(self):
+        if 'startdate' not in self.cleaned_data.keys():
+            raise forms.ValidationError("请先输入日期！") #
+        if 'starttime' not in self.cleaned_data.keys():
+            raise forms.ValidationError("请先输入合适的时间！") #
+        gameclass = self.cleaned_data['gameclass']
+        startdate = self.cleaned_data['startdate']
+        starttime = self.cleaned_data['starttime']
+        curpp = OrderlistModel.objects.filter(startdate=startdate, starttime=starttime, gameclass=gameclass, isagree=False)
+        if len(curpp) != 0:
+            raise forms.ValidationError("该场景在该时段已经有人预订，请重新选择！")
+        else:
+            pass
+
+        return gameclass
