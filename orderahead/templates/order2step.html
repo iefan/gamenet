@@ -1,0 +1,40 @@
+{% extends "orderbase.html" %}
+
+{% block title %}预订{% endblock %}
+
+{% block ordertable %}
+<form class="pure-form" action="/order3step/" method="post">
+  <h2><a href="/order1step/">第一步：场景选择</a> <已选择：{{ scene }}> ——> 第二步：时间选择</h2>
+  <div class="pure-u-1">
+    <h3 align="center">未来一周可预约时间</h3>
+    <table align="center" class="pure-table">
+      <thead>
+        <tr>
+          {% for item in tablehead %}
+          <th>{{ item }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tr>
+        {% for item in tabletime %}
+        {% if not item %}
+        <td>&nbsp;</td>
+        {% else %}
+        <td>{{ item }}</td>
+        {% endif %}
+        {% endfor %}
+      </tr>
+    </table>
+  </div>
+
+  <h3 align="center">请选择相应时间</h3>
+  <div class="pure-u-1">
+    <table align="center" class="pure-table  pure-table-horizontal gameordertable">
+      {{ form.as_table }}
+    </table>
+  </div>
+
+  <p align="center"><button class="pure-button pure-button-primary" type="submit">下一步</button></p>
+
+</form>
+{% endblock %}

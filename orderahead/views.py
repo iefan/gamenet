@@ -2,8 +2,33 @@
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect, HttpResponse
 from forms import OrderForm
+from forms import Order2StepForm, Order3StepForm
 from models import OrderlistModel
 import datetime
+
+def order1step(request):
+    return render_to_response('order1step.html')
+
+def order2step(request):
+    today   = datetime.date.today()
+    weekday = today.weekday()
+    tablehead = [u"日期", u"星期", u"钟点"]
+    tabletime = [today.isoformat(), weekday, '0900']
+
+    jscal_min = int(today.isoformat().replace('-', ''))
+    jscal_max = int((today + datetime.timedelta(30)).isoformat().replace('-', ''))
+
+    scene = ""
+    if request.method == "POST":
+        if "optionscene" in request.POST:
+            scene = request.POST['optionscene']
+
+    form = Order2StepForm()
+    return render_to_response('order2step.html', {"tablehead":tablehead, "tabletime":tabletime, "form":form,"jscal_min":jscal_min, "jscal_max":jscal_max, "scene":scene})
+
+def order3step(request):
+    form = Order3StepForm()
+    return render_to_response('order3step.html', {"form":form})
 
 def orderahead(request):
     today = datetime.date.today()

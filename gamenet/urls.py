@@ -9,13 +9,17 @@ admin.autodiscover()
 def i18n_javascript(request):
     return admin.site.i18n_javascript(request)
 
-urlpatterns = patterns('',
+urlpatterns = patterns(
+    '',
     (r'^admin/jsi18n', i18n_javascript),
     url(r'^$', 'orderahead.views.gamedisplay'),
     url(r'^orderahead/$', 'orderahead.views.orderahead'),
     url(r'^select/$', 'orderahead.views.selectorder'),
     url(r'^about/$', 'orderahead.views.about'),
     url(r'^contact/$', 'orderahead.views.contact'),
+    url(r'^order1step/$', 'orderahead.views.order1step'),
+    url(r'^order2step/$', 'orderahead.views.order2step'),
+    url(r'^order3step/$', 'orderahead.views.order3step'),
     # Examples:
     # url(r'^$', 'gamenet.views.home', name='home'),
     # url(r'^gamenet/', include('gamenet.foo.urls')),
