@@ -1,0 +1,36 @@
+{% extends "orderbase.html" %}
+
+{% block title %}预订成功{% endblock %}
+
+{% block ordertable %}
+
+<div class="pure-u-1">
+  <h3 align="center">当前预订信息</h3>
+  <table align="center" class="pure-table  pure-table-horizontal gameordertable">
+    <thead>
+      <tr>
+        {% for item in tablehead %}
+        <th>{{ item }}</th>
+        {% endfor %}
+      </tr>
+    </thead>
+    <tr>
+      {% for item in tableinfo %}
+      {% if not item %}
+      <td>&nbsp;</td>
+      {% else %}
+      <td>{{ item }}</td>
+      {% endif %}
+      {% endfor %}
+    </tr>
+  </table>
+</div>
+
+<br/>
+<div class='pure-u-1' align='center'>
+  <a class="pure-button pure-button-primary" href="#">预付定金</a>
+  <a class="pure-button pure-button-primary" href="#">返回修改</a>
+  <a class="pure-button pure-button-primary" href="#">删除预订</a>
+</div>
+
+{% endblock %}

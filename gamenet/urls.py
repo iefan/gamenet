@@ -20,6 +20,7 @@ urlpatterns = patterns(
     url(r'^order1step/$', 'orderahead.views.order1step'),
     url(r'^order2step/$', 'orderahead.views.order2step'),
     url(r'^order3step/$', 'orderahead.views.order3step'),
+    url(r'^ordersubmit/$', 'orderahead.views.ordersubmit'),
     # Examples:
     # url(r'^$', 'gamenet.views.home', name='home'),
     # url(r'^gamenet/', include('gamenet.foo.urls')),

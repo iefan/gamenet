@@ -25,7 +25,7 @@ class Order3StepForm(forms.Form):
     ppnumschoices   = tuple([(`i`,`j`) for i,j in zip(range(4,8), range(4,8))])
     name        = forms.CharField(error_messages={'required':u'姓名不能为空'}, label='姓名', widget= forms.TextInput())
     personnums  = forms.ChoiceField(choices = ppnumschoices, label='人数')
-    phone       = forms.CharField(error_messages={'required':u'电话不能为空'}, label='电话', widget= forms.TextInput())
+    phone       = forms.CharField(error_messages={'required':u'电话不能为空'}, label='电话', widget= forms.TextInput(), initial='15915533701')
     # class Meta:
     #     fields = ('name', 'phone', 'personnums',)
 
