@@ -8,6 +8,10 @@ import datetime
 
 def order1step(request):
     request.session['gameclass'] = ""
+    if request.method == "POST":
+        gameclass = request.POST['optionscene']
+        request.session['gameclass'] = gameclass
+        return HttpResponseRedirect('/order2step/') # Redirect
     return render_to_response('order1step.html')
 
 def order2step(request):
@@ -21,32 +25,31 @@ def order2step(request):
     jscal_min = int(today.isoformat().replace('-', ''))
     jscal_max = int((today + datetime.timedelta(30)).isoformat().replace('-', ''))
 
-    scene = ""
-    if request.method == "POST":
-        if "optionscene" in request.POST:
-            scene = request.POST['optionscene']
-            request.session['gameclass'] = scene
-
-    scene = request.session['gameclass']
     form = Order2StepForm()
-    return render_to_response('order2step.html', {"tablehead":tablehead, "tabletime":tabletime, "form":form,"jscal_min":jscal_min, "jscal_max":jscal_max, "scene":scene})
+    scene = request.session['gameclass']
 
-def order3step(request):
     if request.method == "POST":
-        if 'startdate' in request.POST:
+        form = Order2StepForm(request.POST)
+        if form.is_valid():
             startdate = request.POST['startdate']
             starttime = request.POST['starttime']
             request.session['startdate'] = startdate
             request.session['starttime'] = starttime
-        else:
-            form = Order3StepForm(request.POST)
-            if form.is_valid():
-                request.session['name']         = request.POST['name']
-                request.session['phone']        = request.POST['phone']
-                request.session['personnums']   = request.POST['personnums']
-                return HttpResponseRedirect('/ordersubmit/') # Redirect
+            return HttpResponseRedirect('/order3step/') # Redirect
 
+    return render_to_response('order2step.html', {"tablehead":tablehead, "tabletime":tabletime, "form":form,"jscal_min":jscal_min, "jscal_max":jscal_max, "scene":scene})
+
+def order3step(request):
     form = Order3StepForm()
+    if request.method == "POST":
+        form = Order3StepForm(request.POST)
+        if form.is_valid():
+            form.clean()
+            request.session['name']         = request.POST['name']
+            request.session['phone']        = request.POST['phone']
+            request.session['personnums']   = request.POST['personnums']
+            return HttpResponseRedirect('/ordersubmit/') # Redirect
+
     return render_to_response('order3step.html', {"form":form})
 
 def ordersubmit(request):
@@ -58,7 +61,7 @@ def ordersubmit(request):
     starttime       = request.session['starttime']
 
     submitinfo = OrderlistModel(name=name, phone=phone, personnums=personnums, gameclass=gameclass, startdate=startdate, starttime=starttime)
-    print submitinfo
+    submitinfo.save()
 
     tablehead = ['姓名', '电话', '人数', '预订场景', '预订日期', '预订时间']
     tableinfo = [name, phone, personnums, gameclass, startdate, starttime]

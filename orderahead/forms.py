@@ -15,7 +15,7 @@ class Order2StepForm(forms.Form):
         timechoices.append((tmptime2, tmptime2))
     timechoices     = tuple(timechoices)
     tomorrow = (today + datetime.timedelta(1)).isoformat()
-    startdate   = forms.CharField(error_messages={'required':u'日期不能为空'}, label='日期', widget= forms.TextInput(), initial=tomorrow)
+    startdate   = forms.CharField(error_messages={'required':u'日期不能为空'}, label='日期', widget= forms.TextInput()) #initial=tomorrow
     starttime   = forms.ChoiceField(choices = timechoices, label='时间')
 
     def clean(self):
@@ -31,6 +31,20 @@ class Order3StepForm(forms.Form):
 
     def clean(self):
         return self.cleaned_data
+
+    def clean_phone(self):
+        phone  = self.cleaned_data['phone']
+
+        if not phone.isdigit() or len(phone)<11 or len(phone) > 12:
+            raise forms.ValidationError("请输入11或12位电话号码")
+
+        curpp = OrderlistModel.objects.filter(phone=phone, isagree=False)
+        if len(curpp) != 0:
+            raise forms.ValidationError("该电话在当前系统您已经预订！")
+        else:
+            pass
+
+        return phone
 
 class OrderForm(forms.ModelForm):
     ppnumschoices   = tuple([(`i`,`j`) for i,j in zip(range(4,8), range(4,8))])
