@@ -33,6 +33,9 @@ def order2step(request):
     return render_to_response('order2step.html', {"form":form,"jscal_min":jscal_min, "jscal_max":jscal_max, "gameclass":gameclass})
 
 def order3step(request):
+    request.session['name']         = ''
+    request.session['phone']        = ''
+    request.session['personnums']   = ''
     form = Order3StepForm()
     gameclass   = request.session['gameclass']
     dateandtime = request.session['startdate'] + u' ' + request.session['starttime']
@@ -49,6 +52,9 @@ def order3step(request):
     return render_to_response('order3step.html', {"form":form, "gameclass":gameclass, 'dateandtime':dateandtime})
 
 def ordersubmit(request):
+    request.session["curid"] = ''
+    if request.session['name'] == "":
+        return HttpResponseRedirect('/')
     name            = request.session['name']
     phone           = request.session['phone']
     personnums      = request.session['personnums']
@@ -58,10 +64,27 @@ def ordersubmit(request):
 
     submitinfo = OrderlistModel(name=name, phone=phone, personnums=personnums, gameclass=gameclass, startdate=startdate, starttime=starttime)
     submitinfo.save()
+    request.session["curid"] = submitinfo.id
 
     tablehead = ['姓名', '电话', '人数', '预订场景', '预订日期', '预订时间']
     tableinfo = [name, phone, personnums, gameclass, startdate, starttime]
     return render_to_response('ordersubmit.html', {"tablehead":tablehead, "tableinfo":tableinfo})
+
+def deleteorder(request):
+    if request.method == "POST":
+        if request.POST['deleteconfirm'] == "yes":
+            if request.session['curid'] == "":
+                return HttpResponseRedirect('/')
+            curid = request.session['curid']
+            request.session['curid']    = ""
+            request.session['name']     = ""
+            curorder = OrderlistModel.objects.get(id=curid)
+            curorder.selfdel = True
+            curorder.save()
+            return HttpResponseRedirect('/')
+        elif request.POST['deleteconfirm'] == "no":
+            return HttpResponseRedirect('/ordersubmit/')
+    return render_to_response('deleteorder.html')
 
 def orderahead(request):
     today = datetime.date.today()

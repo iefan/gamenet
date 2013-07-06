@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}确定删除{% endblock %}
+
+{% block content %}
+<form class="pure-form" action="." method="post">
+  <div class="splash pure-u-1">
+    <div class="pure-u-1" align="center">
+      <p>确定删除刚才所预订的信息吗？</p>
+      <div class="pure-u-1-2">
+        <label for="option-one" class="pure-radio orderscene">
+          <input id="option-one" type="radio" name="deleteconfirm" value="yes" checked>
+          确定
+        </label>
+      </div>
+      <div class="pure-u-1-2">
+        <label for="option-two" class="pure-radio orderscene">
+          <input id="option-two" type="radio" name="deleteconfirm" value="no" >
+          取消
+        </label>
+      </div>
+    </div>
+    <p align="center"><button class="pure-button pure-button-primary" type="submit">提交</button></p>
+  </div>
+</form>
+
+{% endblock %}
