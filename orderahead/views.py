@@ -9,8 +9,7 @@ import datetime
 def order1step(request):
     request.session['gameclass'] = ""
     if request.method == "POST":
-        gameclass = request.POST['optionscene']
-        request.session['gameclass'] = gameclass
+        request.session['gameclass'] = request.POST['optionscene']
         return HttpResponseRedirect('/order2step/') # Redirect
     return render_to_response('order1step.html')
 
@@ -18,29 +17,26 @@ def order2step(request):
     request.session['startdate'] = ""
     request.session['starttime'] = ""
     today   = datetime.date.today()
-    weekday = today.weekday()
-    tablehead = [u"日期", u"星期", u"钟点"]
-    tabletime = [today.isoformat(), weekday, '0900']
 
     jscal_min = int(today.isoformat().replace('-', ''))
     jscal_max = int((today + datetime.timedelta(30)).isoformat().replace('-', ''))
 
     form = Order2StepForm()
-    scene = request.session['gameclass']
-
+    gameclass = request.session['gameclass']
     if request.method == "POST":
         form = Order2StepForm(request.POST)
         if form.is_valid():
-            startdate = request.POST['startdate']
-            starttime = request.POST['starttime']
-            request.session['startdate'] = startdate
-            request.session['starttime'] = starttime
+            request.session['startdate'] = request.POST['startdate']
+            request.session['starttime'] = request.POST['starttime']
             return HttpResponseRedirect('/order3step/') # Redirect
-
-    return render_to_response('order2step.html', {"tablehead":tablehead, "tabletime":tabletime, "form":form,"jscal_min":jscal_min, "jscal_max":jscal_max, "scene":scene})
+    print form
+    return render_to_response('order2step.html', {"form":form,"jscal_min":jscal_min, "jscal_max":jscal_max, "gameclass":gameclass})
 
 def order3step(request):
     form = Order3StepForm()
+    gameclass   = request.session['gameclass']
+    dateandtime = request.session['startdate'] + u' ' + request.session['starttime']
+
     if request.method == "POST":
         form = Order3StepForm(request.POST)
         if form.is_valid():
@@ -50,7 +46,7 @@ def order3step(request):
             request.session['personnums']   = request.POST['personnums']
             return HttpResponseRedirect('/ordersubmit/') # Redirect
 
-    return render_to_response('order3step.html', {"form":form})
+    return render_to_response('order3step.html', {"form":form, "gameclass":gameclass, 'dateandtime':dateandtime})
 
 def ordersubmit(request):
     name            = request.session['name']

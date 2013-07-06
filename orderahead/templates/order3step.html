@@ -4,7 +4,7 @@
 
 {% block ordertable %}
 <form class="pure-form" action="." method="post">
-  <h2><a  href="/order1step/">第一步：场景选择 {{ scene }}</a> ——> <a href="/order2step/">第二步：时间选择 {{ dateandtime }}</a> ——> 第三步：确认个人信息</h2>
+  <h4><a  href="/order1step/">第一步：场景选择 </a>（已选择：{{ gameclass }}）——> <a href="/order2step/">第二步：时间选择</a> （已选择：{{ dateandtime }}） ——> 第三步：确认个人信息</h4>
   <div class="pure-u-1">
     <h3 align="center">请填写个人必要信息</h3>
     <table align="center" class="pure-table  pure-table-horizontal gameordertable">

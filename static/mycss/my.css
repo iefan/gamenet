@@ -3,9 +3,13 @@
     font-family: ËÎÌו,Arial,Helvetica,sans-serif;
   	font-weight:bold;
 }
+.orderscene{
+    font-size: 30px;
+}
 .gameordertable{
     border:0;
   	font-size: 150%;
+    width: 60%;
 }
 
 /* Apply the .box class on the immediate parent of any grid element (pure-u-*) to apply some padding. */

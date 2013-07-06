@@ -15,6 +15,7 @@ class OrderlistModel(models.Model):
     # descinfo    = models.TextField(null=True, blank=True, verbose_name="说明")
     # iscancel    = models.BooleanField(blank=True,verbose_name="是否取消")
     isagree     = models.BooleanField(verbose_name="申核同意")
+    selfdel     = models.BooleanField(verbose_name="自己删除")
 
     def __unicode__(self):
         if self.isagree:

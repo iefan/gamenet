@@ -4,38 +4,21 @@
 
 {% block ordertable %}
 <form class="pure-form" action="." method="post">
-  <h2><a href="/order1step/">第一步：场景选择</a> <已选择：{{ scene }}> ——> 第二步：时间选择</h2>
+  <h4><a href="/order1step/">第一步：场景选择</a> （已选择：{{ gameclass }}） ——> 第二步：时间选择</h4>
 
   <h3 align="center">请选择相应时间</h3>
   <div class="pure-u-1">
-    <table align="center" class="pure-table  pure-table-horizontal gameordertable">
-      {{ form.as_table }}
+    <table align="center" class="pure-table  pure-table-horizontal gameordertable" >
+      <tr>
+        <td><label for="id_startdate">日期:</label></td>
+        <td class="fieldWrapper" width="40%">{{ form.startdate.errors }}{{ form.startdate }}</td>
+        <td><label for="id_starttime">时间:</label></td>
+        <td class="fieldWrapper" width="40%">{{ form.starttime.errors }}{{ form.starttime }}</td>
+      </tr>
     </table>
   </div>
 
   <p align="center"><button class="pure-button pure-button-primary" type="submit">下一步</button></p>
-
-  <div class="pure-u-1">
-    <h3 align="center">未来一周可预约时间</h3>
-    <table align="center" class="pure-table">
-      <thead>
-        <tr>
-          {% for item in tablehead %}
-          <th>{{ item }}</th>
-          {% endfor %}
-        </tr>
-      </thead>
-      <tr>
-        {% for item in tabletime %}
-        {% if not item %}
-        <td>&nbsp;</td>
-        {% else %}
-        <td>{{ item }}</td>
-        {% endif %}
-        {% endfor %}
-      </tr>
-    </table>
-  </div>
 
 </form>
 {% endblock %}
