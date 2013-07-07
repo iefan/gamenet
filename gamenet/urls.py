@@ -14,7 +14,7 @@ urlpatterns = patterns(
     (r'^admin/jsi18n', i18n_javascript),
     url(r'^$', 'orderahead.views.gamedisplay'),
     url(r'^index/$', 'orderahead.views.gamedisplay'),
-    url(r'^orderahead/$', 'orderahead.views.orderahead'),
+    # url(r'^orderahead/$', 'orderahead.views.orderahead'),
     url(r'^select/$', 'orderahead.views.selectorder'),
     url(r'^about/$', 'orderahead.views.about'),
     url(r'^contact/$', 'orderahead.views.contact'),
@@ -23,6 +23,7 @@ urlpatterns = patterns(
     url(r'^order3step/$', 'orderahead.views.order3step'),
     url(r'^ordersubmit/$', 'orderahead.views.ordersubmit'),
     url(r'^deleteorder/$', 'orderahead.views.deleteorder'),
+    url(r'^modifyorder/$', 'orderahead.views.modifyorder'),
     # Examples:
     # url(r'^$', 'gamenet.views.home', name='home'),
     # url(r'^gamenet/', include('gamenet.foo.urls')),

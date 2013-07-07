@@ -36,5 +36,13 @@
     {% endfor %}
   </tr>
 </table>
-<p align="center"><a class="pure-button pure-button-primary" href="/contact/">取消预订</a></p>
+<br/>
+{% if deleteflag %}
+<div class='pure-u-1' align='center'>
+  <a class="pure-button pure-button-primary" href="#">预付定金</a>
+  <a class="pure-button pure-button-primary" href="/modifyorder/">返回修改</a>
+  <a class="pure-button pure-button-primary" href="/deleteorder/">删除预订</a>
+</div>
+<br/>
+{% endif %}
 {% endblock %}

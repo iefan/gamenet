@@ -26,11 +26,17 @@ class Order3StepForm(forms.Form):
     name        = forms.CharField(error_messages={'required':u'姓名不能为空'}, label='姓名', widget= forms.TextInput())
     personnums  = forms.ChoiceField(choices = ppnumschoices, label='人数')
     phone       = forms.CharField(error_messages={'required':u'电话不能为空'}, label='电话', widget= forms.TextInput(), initial='15915533701')
-    # class Meta:
-    #     fields = ('name', 'phone', 'personnums',)
 
     def clean(self):
         return self.cleaned_data
+
+    def clean_name(self):
+        name = self.cleaned_data['name']
+        curpp = OrderlistModel.objects.filter(name=name, isagree=False, selfdel=False)
+        if len(curpp) != 0:
+            raise forms.ValidationError("该姓名在当前系统您已经预订！")
+
+        return name
 
     def clean_phone(self):
         phone  = self.cleaned_data['phone']
@@ -38,11 +44,9 @@ class Order3StepForm(forms.Form):
         if not phone.isdigit() or len(phone)<11 or len(phone) > 12:
             raise forms.ValidationError("请输入11或12位电话号码")
 
-        curpp = OrderlistModel.objects.filter(phone=phone, isagree=False)
+        curpp = OrderlistModel.objects.filter(phone=phone, isagree=False, selfdel=False)
         if len(curpp) != 0:
             raise forms.ValidationError("该电话在当前系统您已经预订！")
-        else:
-            pass
 
         return phone
 

@@ -29,7 +29,6 @@ def order2step(request):
             request.session['startdate'] = request.POST['startdate']
             request.session['starttime'] = request.POST['starttime']
             return HttpResponseRedirect('/order3step/') # Redirect
-    print form
     return render_to_response('order2step.html', {"form":form,"jscal_min":jscal_min, "jscal_max":jscal_max, "gameclass":gameclass})
 
 def order3step(request):
@@ -76,33 +75,43 @@ def deleteorder(request):
             if request.session['curid'] == "":
                 return HttpResponseRedirect('/')
             curid = request.session['curid']
-            request.session['curid']    = ""
-            request.session['name']     = ""
             curorder = OrderlistModel.objects.get(id=curid)
             curorder.selfdel = True
             curorder.save()
+            request.session['curid']    = ""
+            request.session['name']     = ""
             return HttpResponseRedirect('/')
         elif request.POST['deleteconfirm'] == "no":
             return HttpResponseRedirect('/ordersubmit/')
     return render_to_response('deleteorder.html')
 
-def orderahead(request):
-    today = datetime.date.today()
 
-    if request.method == 'POST':
-        form = OrderForm(request.POST)
-        if form.is_valid():
-            # form.clean()
-            form.save()
-            name    = request.POST['name']
-            phone   = request.POST['phone']
-            return selectorder(request, name, phone)
-    else:
-        form = OrderForm()
+def modifyorder(request):
+    if request.session['curid'] == "":
+        return HttpResponseRedirect('/')
 
+    today   = datetime.date.today()
     jscal_min = int(today.isoformat().replace('-', ''))
     jscal_max = int((today + datetime.timedelta(30)).isoformat().replace('-', ''))
-    return render_to_response('orderahead.html', {'form': form,  "jscal_min":jscal_min, "jscal_max":jscal_max})
+
+    curid = request.session['curid']
+    curorder = OrderlistModel.objects.get(id=curid)
+
+    form = Order2StepForm()
+    if request.method == "POST":
+        form = Order2StepForm(request.POST)
+        if form.is_valid():
+            curorder.startdate = request.POST['startdate']
+            curorder.starttime = request.POST['starttime']
+            request.session['startdate'] = request.POST['startdate']
+            request.session['starttime'] = request.POST['starttime']
+            curorder.save()
+            return selectorder(request, curorder.name, curorder.phone)
+
+    tablehead = ['姓名', '电话', '人数', '预订场景', '预订日期', '预订时间']
+    tableinfo = [curorder.name, curorder.phone, curorder.personnums, curorder.gameclass, curorder.startdate.isoformat(), curorder.starttime.isoformat()]
+
+    return render_to_response('modifyorder.html', {"form":form, "tablehead":tablehead, "tableinfo":tableinfo, "jscal_min":jscal_min, "jscal_max":jscal_max})
 
 
 def gamedisplay(request):
@@ -110,27 +119,34 @@ def gamedisplay(request):
 
 
 def selectorder(request, name="", phone=""):
+    request.session['curid'] = ""
     curppname = [u"姓名", u"场景", u"电话", u"人数", u"预订时间", u"是否通过申请"]
     curpp     = ["","","","","",""]
+    deleteflag = False
 
     if request.method == 'POST':
-        if name == "" and phone == "":
+        if name == "" and phone=="":
             name = request.POST['name']
             phone = request.POST['phone']
 
         cur_re = OrderlistModel.objects.filter(name=name, phone=phone)
         if len(cur_re) != 0:
             cur_re = cur_re[0]
+            request.session['curid'] = cur_re.id
             tmpdatetime = cur_re.startdate.isoformat() + "--" + cur_re.starttime.isoformat()
-            if cur_re.isagree:
-                isagree = u"通过"
+            if cur_re.selfdel:
+                isagree = "已取消"
             else:
-                isagree = u"未通过"
+                deleteflag = True
+                if cur_re.isagree:
+                    isagree = u"通过"
+                else:
+                    isagree = u"未通过"
             curpp = [cur_re.name,  cur_re.gameclass, cur_re.phone, cur_re.personnums, tmpdatetime, isagree]
         else:
             curpp[0] = "没有登记"
 
-    return render_to_response('selectorder.html', {'curpp': curpp, 'curppname':curppname})
+    return render_to_response('selectorder.html', {'curpp': curpp, 'curppname':curppname, 'deleteflag':deleteflag})
 
 
 def about(request):
